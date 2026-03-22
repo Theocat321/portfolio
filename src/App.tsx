@@ -9,6 +9,7 @@ import { AmbientEffects } from './scene/AmbientEffects'
 import { BackgroundPlanets } from './scene/BackgroundPlanets'
 import { ShootingStars } from './scene/ShootingStars'
 import { Satellites } from './scene/Satellites'
+import { OrbitingUnicorn } from './scene/OrbitingUnicorn'
 import { Header } from './ui/Header'
 import { NavHint } from './ui/NavHint'
 import { ProjectPanel } from './ui/ProjectPanel'
@@ -46,6 +47,7 @@ function App() {
           <BackgroundPlanets />
           <ShootingStars />
           <Satellites />
+          <OrbitingUnicorn />
         </Suspense>
       </Canvas>
 
