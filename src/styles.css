@@ -67,109 +67,122 @@ body {
   cursor: default;
 }
 
+/* ---- Project Panel ---- */
+
 .project-panel {
   position: absolute;
-  right: 24px;
+  right: 28px;
   top: 50%;
   transform: translateY(-50%);
-  width: 300px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 20px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  width: 280px;
+  background: rgba(12, 12, 14, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   pointer-events: auto;
 }
 
-.panel-meta {
+.panel-header-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.panel-tag {
-  font-size: 9px;
-  color: rgba(76, 201, 240, 0.6);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  background: rgba(76, 201, 240, 0.08);
-  border-radius: 4px;
-}
-
-.panel-date {
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.35);
-  letter-spacing: 0.5px;
-}
-
-.panel-status {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
-  margin-bottom: 16px;
-  padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 4px;
-  display: inline-block;
-}
-
-.panel-status.status-active {
-  color: rgba(76, 240, 130, 0.8);
-  background: rgba(76, 240, 130, 0.08);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
 .panel-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: white;
-  margin-bottom: 8px;
-}
-
-.panel-description {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
-
-.panel-cta {
-  display: inline-block;
-  padding: 8px 16px;
-  background: rgba(76, 201, 240, 0.12);
-  border: 1px solid rgba(76, 201, 240, 0.25);
-  border-radius: 8px;
-  color: var(--accent);
-  font-size: 12px;
-  text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.panel-cta:hover {
-  background: rgba(76, 201, 240, 0.2);
-  border-color: rgba(76, 201, 240, 0.4);
+  letter-spacing: -0.3px;
+  line-height: 1.2;
 }
 
 .panel-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 28px;
-  height: 28px;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
   border: none;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
+  background: none;
+  color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: auto;
-  transition: background 0.2s ease;
+  padding: 0;
+  margin: -2px -4px 0 0;
+  transition: color 0.15s ease;
 }
 
 .panel-close:hover {
-  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.panel-description {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.panel-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+}
+
+.panel-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-detail-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.panel-detail-value {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.panel-detail-value.value-active {
+  color: #4cf0a0;
+}
+
+.panel-detail-value.value-completed {
+  color: #4cc9f0;
+}
+
+.panel-detail-value.value-archived {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.panel-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.panel-cta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: white;
 }

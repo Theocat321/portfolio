@@ -7,6 +7,8 @@ import { Starfield } from './scene/Starfield'
 import { DustParticles } from './scene/DustParticles'
 import { AmbientEffects } from './scene/AmbientEffects'
 import { BackgroundPlanets } from './scene/BackgroundPlanets'
+import { ShootingStars } from './scene/ShootingStars'
+import { Satellites } from './scene/Satellites'
 import { Header } from './ui/Header'
 import { NavHint } from './ui/NavHint'
 import { ProjectPanel } from './ui/ProjectPanel'
@@ -41,6 +43,8 @@ function App() {
           <Starfield />
           <DustParticles />
           <BackgroundPlanets />
+          <ShootingStars />
+          <Satellites />
         </Suspense>
       </Canvas>
 
