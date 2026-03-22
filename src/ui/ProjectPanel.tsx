@@ -42,7 +42,7 @@ export function ProjectPanel() {
             <div className="panel-details">
               {project.tag && (
                 <div className="panel-detail">
-                  <span className="panel-detail-label">Type</span>
+                  <span className="panel-detail-label">{project.type === 'hackathon' ? 'Event' : 'Type'}</span>
                   <span className="panel-detail-value">{project.tag}</span>
                 </div>
               )}
@@ -54,8 +54,9 @@ export function ProjectPanel() {
               )}
               {project.status && (
                 <div className="panel-detail">
-                  <span className="panel-detail-label">Status</span>
+                  <span className="panel-detail-label">{project.type === 'hackathon' ? 'Result' : 'Status'}</span>
                   <span className={`panel-detail-value ${
+                    project.type === 'hackathon' ? 'value-hackathon' :
                     project.status === 'Active' ? 'value-active' :
                     project.status === 'Completed' ? 'value-completed' : 'value-archived'
                   }`}>

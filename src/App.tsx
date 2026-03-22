@@ -12,6 +12,7 @@ import { Satellites } from './scene/Satellites'
 import { Header } from './ui/Header'
 import { NavHint } from './ui/NavHint'
 import { ProjectPanel } from './ui/ProjectPanel'
+import { Legend } from './ui/Legend'
 import { useStore } from './store/useStore'
 import { Analytics } from '@vercel/analytics/react'
 
@@ -50,6 +51,7 @@ function App() {
 
       <div className="hud">
         <Header />
+        <Legend />
         <NavHint />
         <ProjectPanel />
       </div>

@@ -1,3 +1,5 @@
+export type ProjectType = 'project' | 'hackathon'
+
 export interface Project {
   id: string
   title: string
@@ -6,17 +8,20 @@ export interface Project {
   tag?: string
   status?: string
   date?: string
+  type: ProjectType
   thumbnail?: string
   position: [number, number] // [lat, lng] in degrees
 }
 
 export const MOON_RADIUS = 0.75
 
-export function getBeaconColor(status?: string): string {
-  switch (status) {
-    case 'Active': return '#4cf0a0'        // green
-    case 'Completed': return '#4cc9f0'     // cyan/blue
-    default: return '#f0a04c'              // amber (no longer maintained)
+export function getBeaconColor(project: Project): string {
+  if (project.type === 'hackathon') return '#e040fb' // purple/magenta for hackathons
+
+  switch (project.status) {
+    case 'Active': return '#4cf0a0'
+    case 'Completed': return '#4cc9f0'
+    default: return '#f0a04c'
   }
 }
 
@@ -34,43 +39,49 @@ export function latLngToCartesian(
 }
 
 export const projects: Project[] = [
+  // ---- Projects ----
   {
+    // ---- Projects (spread around full sphere) ----
     id: 'stag',
-    title: 'Stag',
-    description: 'AI for real estate teams',
+    title: 'Stag AI',
+    description: 'AI platform revolutionising commercial real estate underwriting',
     link: 'https://usestag.com',
     tag: 'AI',
     status: 'Active',
-    date: 'Present',
-    position: [20, -30],
+    date: 'Jun 2025 – Present',
+    type: 'project',
+    position: [15, 30],
   },
   {
     id: 'meta',
     title: 'Meta',
-    description: 'Software Engineering Intern',
+    description: 'SWE Intern on Ads team. Shipped 4 projects in 3 months. Received return offer.',
     tag: 'SWE',
     status: 'Completed',
-    date: 'Summer 2025',
-    position: [-15, 45],
+    date: 'Jun – Sep 2025',
+    type: 'project',
+    position: [-20, 150],
   },
   {
     id: 'alethium',
     title: 'Alethium',
-    description: 'Marketplace for health & wellness supply chain in Europe',
+    description: 'B2B health & wellness supply chain. 6 figures in 3 months of trading.',
     link: 'https://alethium.io',
     tag: 'SaaS',
     status: 'Completed',
-    date: '2024–2025',
-    position: [35, 10],
+    date: 'Apr 2024 – Apr 2025',
+    type: 'project',
+    position: [35, -60],
   },
   {
     id: 'gov-contracting',
     title: 'Government Contracting',
-    description: 'Redacted',
+    description: 'Data processing and analytics in campaigning',
     tag: 'Classified',
     status: 'Completed',
     date: '2025',
-    position: [-10, -60],
+    type: 'project',
+    position: [-10, -140],
   },
   {
     id: 'zoey',
@@ -79,15 +90,73 @@ export const projects: Project[] = [
     tag: 'AI',
     status: 'No longer maintained',
     date: 'Q1 2025',
-    position: [5, 70],
+    type: 'project',
+    position: [40, 100],
   },
   {
     id: 'shots',
     title: 'Shots',
-    description: 'Mobile app',
+    description: 'Events & parties mobile platform. Connecting users in new ways.',
     tag: 'Mobile',
     status: 'No longer maintained',
-    date: '2023',
-    position: [-30, -15],
+    date: 'Aug 2023 – Sep 2024',
+    type: 'project',
+    position: [-35, -20],
+  },
+  {
+    id: 'fund-watcher',
+    title: 'Fund Watcher',
+    description: 'Fund & portfolio management tool for private equity clients',
+    tag: 'Fintech',
+    status: 'Completed',
+    date: '2025',
+    type: 'project',
+    position: [5, -100],
+  },
+
+  // ---- Hackathons (interleaved around the sphere) ----
+  {
+    id: 'tiger-mom',
+    title: 'Tiger MOM',
+    description: 'Realtime MOM test assistant for crucial customer calls',
+    tag: 'Tech:Europe 2025',
+    type: 'hackathon',
+    position: [-40, 70],
+  },
+  {
+    id: 'clueless',
+    title: 'Clueless',
+    description: 'AI onboarding engine for anything on your computer. Won $45k.',
+    tag: 'AI Engine 2025',
+    status: 'Winner - $45k',
+    type: 'hackathon',
+    position: [25, -170],
+  },
+  {
+    id: 'yappah',
+    title: 'Yappah.ai',
+    description: 'Social awareness assistant tackling the loneliness epidemic',
+    tag: 'Bolt/Elevenlabs 2025',
+    status: 'Track Winner',
+    type: 'hackathon',
+    position: [-15, 120],
+  },
+  {
+    id: 'fireline',
+    title: 'Fireline',
+    description: 'Visualising and understanding wildfire data in California',
+    tag: 'Hack South West 2024',
+    status: 'Overall Winner',
+    type: 'hackathon',
+    position: [45, -30],
+  },
+  {
+    id: 'logisti',
+    title: 'Logisti',
+    description: 'Bulk buying management system to save the environment',
+    tag: 'Google SDC 2023',
+    status: 'Overall Winner',
+    type: 'hackathon',
+    position: [-30, -110],
   },
 ]

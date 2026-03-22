@@ -60,6 +60,42 @@ body {
   transition: opacity 0.5s ease;
 }
 
+/* ---- Legend ---- */
+
+.legend {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.3px;
+}
+
+@media (pointer: coarse) {
+  .legend {
+    display: none;
+  }
+}
+
 .panel-overlay {
   position: absolute;
   inset: 0;
@@ -165,6 +201,10 @@ body {
 
 .panel-detail-value.value-archived {
   color: rgba(255, 255, 255, 0.3);
+}
+
+.panel-detail-value.value-hackathon {
+  color: #e040fb;
 }
 
 .panel-cta {

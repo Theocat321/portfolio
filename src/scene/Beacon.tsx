@@ -37,7 +37,7 @@ export function Beacon({ project, index }: BeaconProps) {
     MOON_RADIUS + 0.02
   )
 
-  const color = useMemo(() => getBeaconColor(project.status), [project.status])
+  const color = useMemo(() => getBeaconColor(project), [project])
 
   // Compute the "up" direction (outward from sphere center) for orienting the ray
   const normal = useMemo(() => {
