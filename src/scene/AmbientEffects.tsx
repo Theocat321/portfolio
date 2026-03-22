@@ -39,7 +39,7 @@ export function AmbientEffects() {
       <mesh ref={glowRef}>
         <sphereGeometry args={[0.8, 64, 64]} />
         <meshBasicMaterial
-          color="#1a3a4a"
+          color="#2a2a3a"
           transparent
           opacity={0.15}
           depthWrite={false}

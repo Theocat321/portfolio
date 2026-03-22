@@ -5,8 +5,8 @@ import { MOON_RADIUS } from '../data/projects'
 import { useStore } from '../store/useStore'
 
 export function Moon({ groupRef }: { groupRef: React.RefObject<THREE.Group | null> }) {
-  const diffuse = useTexture('/textures/moon-diffuse.jpg')
   const activeProject = useStore((s) => s.activeProject)
+  const diffuse = useTexture('/textures/moon-diffuse.jpg')
 
   useFrame(() => {
     if (groupRef.current && !activeProject) {
@@ -19,6 +19,7 @@ export function Moon({ groupRef }: { groupRef: React.RefObject<THREE.Group | nul
       <sphereGeometry args={[MOON_RADIUS, 64, 64]} />
       <meshStandardMaterial
         map={diffuse}
+        color="#f0d0d8"
         roughness={1}
         metalness={0}
       />

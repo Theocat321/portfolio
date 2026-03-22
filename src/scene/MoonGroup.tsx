@@ -6,6 +6,7 @@ import { Piano } from './props/Piano'
 import { Football } from './props/Football'
 import { Car } from './props/Car'
 import { SurfaceDetails } from './props/SurfaceDetails'
+import { UnicornFeatures } from './UnicornFeatures'
 
 export function MoonGroup() {
   const groupRef = useRef<THREE.Group>(null)
@@ -13,6 +14,7 @@ export function MoonGroup() {
   return (
     <group ref={groupRef}>
       <Moon groupRef={groupRef} />
+      <UnicornFeatures />
       <Beacons />
       <Piano />
       <Football />
