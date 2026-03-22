@@ -11,6 +11,7 @@ import { Header } from './ui/Header'
 import { NavHint } from './ui/NavHint'
 import { ProjectPanel } from './ui/ProjectPanel'
 import { useStore } from './store/useStore'
+import { Analytics } from '@vercel/analytics/react'
 
 function App() {
   const setActiveProject = useStore((s) => s.setActiveProject)
@@ -48,6 +49,7 @@ function App() {
         <NavHint />
         <ProjectPanel />
       </div>
+      <Analytics />
     </>
   )
 }
