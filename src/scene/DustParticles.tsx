@@ -7,10 +7,9 @@ const PARTICLE_COUNT = 300
 export function DustParticles() {
   const ref = useRef<THREE.Points>(null)
 
-  const [positions, velocities, opacities] = useMemo(() => {
+  const [positions, velocities] = useMemo(() => {
     const pos = new Float32Array(PARTICLE_COUNT * 3)
     const vel = new Float32Array(PARTICLE_COUNT * 3)
-    const opa = new Float32Array(PARTICLE_COUNT)
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       // Distribute in a shell around the moon
       const r = 2 + Math.random() * 5
@@ -23,9 +22,8 @@ export function DustParticles() {
       vel[i * 3] = (Math.random() - 0.5) * 0.003
       vel[i * 3 + 1] = (Math.random() - 0.5) * 0.002
       vel[i * 3 + 2] = (Math.random() - 0.5) * 0.003
-      opa[i] = Math.random()
     }
-    return [pos, vel, opa]
+    return [pos, vel]
   }, [])
 
   useFrame((state) => {
@@ -63,9 +61,7 @@ export function DustParticles() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          array={positions}
-          count={PARTICLE_COUNT}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial

@@ -6,6 +6,7 @@ import { CameraRig } from './scene/CameraRig'
 import { Starfield } from './scene/Starfield'
 import { DustParticles } from './scene/DustParticles'
 import { AmbientEffects } from './scene/AmbientEffects'
+import { BackgroundPlanets } from './scene/BackgroundPlanets'
 import { Header } from './ui/Header'
 import { NavHint } from './ui/NavHint'
 import { ProjectPanel } from './ui/ProjectPanel'
@@ -38,6 +39,7 @@ function App() {
           <CameraRig />
           <Starfield />
           <DustParticles />
+          <BackgroundPlanets />
         </Suspense>
       </Canvas>
 
