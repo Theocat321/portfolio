@@ -114,6 +114,17 @@ export const projects: Project[] = [
     position: [5, -100],
   },
 
+  {
+    id: 'roi-or-die',
+    title: 'ROI or Die',
+    description: 'Enterprise sales cycle game, powered by Mistral',
+    link: 'https://roi-or-die.com',
+    tag: 'AI',
+    status: 'Active',
+    type: 'project',
+    position: [50, 60],
+  },
+
   // ---- Hackathons (interleaved around the sphere) ----
   {
     id: 'tiger-mom',
