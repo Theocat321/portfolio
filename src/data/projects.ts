@@ -124,6 +124,16 @@ export const projects: Project[] = [
     type: 'project',
     position: [50, 60],
   },
+  {
+    id: 'claude-ping',
+    title: 'Claude Ping',
+    description: 'Popup notification when a Claude Code terminal finishes, jumping straight to that session',
+    link: 'https://github.com/Theocat321/claude-ping',
+    tag: 'Dev Tools',
+    status: 'Active',
+    type: 'project',
+    position: [-25, 50],
+  },
 
   // ---- Hackathons (interleaved around the sphere) ----
   {
