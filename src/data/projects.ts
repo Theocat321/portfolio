@@ -134,6 +134,16 @@ export const projects: Project[] = [
     type: 'project',
     position: [-25, 50],
   },
+  {
+    id: 'tracker-auction',
+    title: 'Tracker Auction',
+    description: 'AI-native, fully autonomous car auction tracker for dealerships and brokers',
+    link: 'https://www.tracker.auction',
+    tag: 'AI',
+    status: 'Active',
+    type: 'project',
+    position: [55, -100],
+  },
 
   // ---- Hackathons (interleaved around the sphere) ----
   {
