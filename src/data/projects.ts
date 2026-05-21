@@ -144,6 +144,16 @@ export const projects: Project[] = [
     type: 'project',
     position: [55, -100],
   },
+  {
+    id: 'meetsf',
+    title: 'MeetSF',
+    description: 'Quarterly list of interesting people to follow in San Francisco',
+    link: 'https://meetsf.com',
+    tag: 'Side Project',
+    status: 'Active',
+    type: 'project',
+    position: [10, -40],
+  },
 
   // ---- Hackathons (interleaved around the sphere) ----
   {
