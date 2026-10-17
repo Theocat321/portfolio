@@ -13,6 +13,11 @@ const PILE_AT = 80
 const FLAT_AT = 3200
 const DATA_AT = 5200
 const DOC_COUNT = 72
+const TITLE_LINES = ['FINDING THE PATTERN']
+const GLYPH_ROWS = 6
+const LINE_PITCH = 6
+const CELL_W = 12
+const CELL_H = 22
 
 type Stage = 'empty' | 'pile' | 'flat' | 'data'
 
@@ -99,6 +104,56 @@ function rowCount() {
   return Math.min(160, Math.ceil(window.innerHeight / lineHeight()) + 1)
 }
 
+function glyphGrid() {
+  const rows = TITLE_LINES.length * LINE_PITCH
+  const size = (GLYPH_ROWS * CELL_H) / 0.7
+  const family = `800 ${size}px 'Archivo', sans-serif`
+  const probe = document.createElement('canvas').getContext('2d')
+  if (!probe) return { cols: 0, rows, cells: new Uint8Array(0) }
+  probe.font = family
+  const widest = Math.max(...TITLE_LINES.map((line) => probe.measureText(line).width))
+  const cols = Math.ceil(widest / CELL_W) + 2
+  const w = cols * CELL_W
+  const h = rows * CELL_H
+  const canvas = document.createElement('canvas')
+  canvas.width = w
+  canvas.height = h
+  const ctx = canvas.getContext('2d')
+  const cells = new Uint8Array(cols * rows)
+  if (!ctx) return { cols, rows, cells }
+  ctx.font = family
+  ctx.fillStyle = '#000'
+  ctx.textAlign = 'right'
+  ctx.textBaseline = 'alphabetic'
+  TITLE_LINES.forEach((line, i) => {
+    ctx.fillText(line, w - CELL_W, (i * LINE_PITCH + GLYPH_ROWS) * CELL_H)
+  })
+  const data = ctx.getImageData(0, 0, w, h).data
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      let covered = 0
+      for (let py = 0; py < CELL_H; py += 2) {
+        for (let px = 0; px < CELL_W; px += 2) {
+          if (data[((y * CELL_H + py) * w + x * CELL_W + px) * 4 + 3] > 127) covered++
+        }
+      }
+      if (covered / ((CELL_H / 2) * (CELL_W / 2)) > 0.5) cells[y * cols + x] = 1
+    }
+  }
+  return { cols, rows, cells }
+}
+
+function renderGlyphs(tick: number, grid: ReturnType<typeof glyphGrid>) {
+  let out = ''
+  for (let y = 0; y < grid.rows; y++) {
+    for (let x = 0; x < grid.cols; x++) {
+      out += grid.cells[y * grid.cols + x] ? Math.floor(hash(x, y, tick) * 10) : ' '
+    }
+    out += '\n'
+  }
+  return out
+}
+
 function render(tick: number, rows: number, found: boolean) {
   const shape = Math.min(tick, FOUND_TICK)
   const step = Math.floor(shape / STEP_DIV)
@@ -156,6 +211,8 @@ export default function Pattern() {
   const docs = useMemo(() => docsPile(DOC_COUNT), [])
   const introDone = stage === 'data'
   const found = tick >= FOUND_TICK
+  const [fontsReady, setFontsReady] = useState(false)
+  const glyphs = useMemo(() => (fontsReady ? glyphGrid() : null), [fontsReady])
 
   useEffect(() => {
     const onResize = () => setRows(rowCount())
@@ -163,6 +220,10 @@ export default function Pattern() {
     return () => {
       window.removeEventListener('resize', onResize)
     }
+  }, [])
+
+  useEffect(() => {
+    void document.fonts.load("800 100px 'Archivo'").then(() => setFontsReady(true))
   }, [])
 
   useEffect(() => {
@@ -181,6 +242,7 @@ export default function Pattern() {
   }, [introDone])
 
   const { noise, sig, grad } = useMemo(() => render(tick, rows, found), [tick, rows, found])
+  const glyphText = useMemo(() => (glyphs ? renderGlyphs(tick, glyphs) : ''), [tick, glyphs])
 
   return (
     <div className={`pattern ${introDone ? 'pattern--ready' : 'pattern--intro'}`}>
@@ -202,12 +264,10 @@ export default function Pattern() {
         <pre className="pattern-signal">{sig}</pre>
         <pre className="pattern-grad">{grad}</pre>
       </div>
+      <pre className="pattern-text" aria-label="Finding the pattern">
+        {glyphText}
+      </pre>
       <div className="pattern-name">Adam</div>
-      <h1 className="pattern-title">
-        Finding
-        <br />
-        the pattern<span>.</span>
-      </h1>
     </div>
   )
 }

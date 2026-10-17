@@ -124,30 +124,25 @@ body,
   letter-spacing: 0.02em;
 }
 
-.pattern-title {
+.pattern-text {
   position: absolute;
   right: 24px;
-  bottom: 20px;
+  bottom: 12px;
   margin: 0;
-  text-align: right;
-  font-family: 'Archivo', sans-serif;
-  font-stretch: 75%;
-  font-weight: 800;
-  font-size: clamp(56px, 13vw, 220px);
-  line-height: 0.82;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-}
-
-.pattern-title span {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: calc(100vw / 370);
+  line-height: 1.1;
+  white-space: pre;
   color: var(--accent);
+  background: var(--bg);
+  user-select: none;
 }
 
-.pattern-title {
-  transition: opacity 1s ease 0.8s, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.8s;
+.pattern-text {
+  transition: opacity 0.8s ease 1s;
 }
 
-.pattern--intro .pattern-title {
+.pattern--intro .pattern-text {
   opacity: 0;
-  transform: translateY(24px);
 }
