@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-const COLS = 32
 const LAYERS = 8
-const PER_LAYER = 4
 const EPOCHS = 10
 const BLANK = '    '
 const TICK_MS = 130
@@ -85,23 +83,33 @@ function docStyle(d: ReturnType<typeof docsPile>[number], stage: Stage): CSSProp
   }
 }
 
-function target(u: number, v: number, t: number) {
+function target(u: number, v: number, t: number, aspect: number) {
+  const wide = Math.min(2.2, Math.max(0.3, aspect)) / 1.6
   const g = (cx: number, cy: number, s: number) =>
-    Math.exp(-(((u - cx) * 1.8) ** 2 + (v - cy) ** 2) / s)
+    Math.exp(-(((u - cx) * 1.8 * wide) ** 2 + (v - cy) ** 2) / s)
+  if (aspect < 1) {
+    const above = g(0.36 + 0.04 * Math.sin(t * 1.3), 0.33 + 0.02 * Math.cos(t * 1.1), 0.0028)
+    const below = g(0.64 + 0.04 * Math.cos(t * 0.9), 0.67 + 0.02 * Math.sin(t * 1.4), 0.0028)
+    const line = 0.5 + 0.03 * Math.sin(u * 5 + t * 2)
+    const bar = Math.exp(-((v - line) ** 2) / 0.0012)
+    return Math.max(above, below, bar)
+  }
   const c1 = g(0.2 + 0.1 * Math.sin(t * 1.3), 0.3 + 0.1 * Math.cos(t), 0.007)
   const c2 = g(0.66 + 0.08 * Math.cos(t * 0.9), 0.22 + 0.08 * Math.sin(t * 1.7), 0.005)
   const c3 = g(0.45 + 0.12 * Math.sin(t * 0.7), 0.68 + 0.08 * Math.cos(t * 1.1), 0.009)
-  const ry = 0.48 + 0.18 * Math.sin(u * (6 + (t % 3)) + t * 2) + 0.06 * Math.sin(u * 19 - t)
+  const ry = 0.48 + 0.18 * Math.sin(u * wide * (6 + (t % 3)) + t * 2) + 0.06 * Math.sin(u * wide * 19 - t)
   const ribbon = Math.exp(-((v - ry) ** 2) / 0.0014)
   return Math.max(c1, c2, c3, ribbon)
 }
 
-function lineHeight() {
-  return (window.innerWidth / 100.2) * 1.3
-}
-
-function rowCount() {
-  return Math.min(160, Math.ceil(window.innerHeight / lineHeight()) + 1)
+function gridSpec() {
+  const perLayer = window.innerWidth < 700 ? 2 : 4
+  const cols = perLayer * LAYERS
+  const divisor = (cols * 5 + LAYERS - 1) * 0.6
+  const height = Math.max(window.innerHeight, document.documentElement.clientHeight, window.screen.height)
+  const rows = Math.min(400, Math.ceil(height / ((window.innerWidth / divisor) * 1.3)) + 2)
+  const aspect = window.innerWidth / (rows * (window.innerWidth / divisor) * 1.3)
+  return { perLayer, cols, divisor, rows, aspect }
 }
 
 function glyphGrid() {
@@ -154,7 +162,8 @@ function renderGlyphs(tick: number, grid: ReturnType<typeof glyphGrid>) {
   return out
 }
 
-function render(tick: number, rows: number, found: boolean) {
+function render(tick: number, spec: ReturnType<typeof gridSpec>, found: boolean) {
+  const { rows, cols: COLS, perLayer: PER_LAYER } = spec
   const shape = Math.min(tick, FOUND_TICK)
   const step = Math.floor(shape / STEP_DIV)
   const inEpoch = step % (2 * LAYERS)
@@ -172,7 +181,7 @@ function render(tick: number, rows: number, found: boolean) {
     for (let x = 0; x < COLS; x++) {
       const layer = Math.floor(x / PER_LAYER)
       const u = x / COLS
-      const s = target(u, v, t)
+      const s = target(u, v, t, spec.aspect)
       let k = epoch
       if (!forward && layer >= front) k += 1
       const err = 1.15 * Math.exp(-k * 0.62)
@@ -206,7 +215,7 @@ function render(tick: number, rows: number, found: boolean) {
 
 export default function Pattern() {
   const [tick, setTick] = useState(0)
-  const [rows, setRows] = useState(() => rowCount())
+  const [spec, setSpec] = useState(() => gridSpec())
   const [stage, setStage] = useState<Stage>('empty')
   const docs = useMemo(() => docsPile(DOC_COUNT), [])
   const introDone = stage === 'data'
@@ -215,7 +224,7 @@ export default function Pattern() {
   const glyphs = useMemo(() => (fontsReady ? glyphGrid() : null), [fontsReady])
 
   useEffect(() => {
-    const onResize = () => setRows(rowCount())
+    const onResize = () => setSpec(gridSpec())
     window.addEventListener('resize', onResize)
     return () => {
       window.removeEventListener('resize', onResize)
@@ -241,7 +250,7 @@ export default function Pattern() {
     return () => clearInterval(timer)
   }, [introDone])
 
-  const { noise, sig, grad } = useMemo(() => render(tick, rows, found), [tick, rows, found])
+  const { noise, sig, grad } = useMemo(() => render(tick, spec, found), [tick, spec, found])
   const glyphText = useMemo(() => (glyphs ? renderGlyphs(tick, glyphs) : ''), [tick, glyphs])
 
   return (
@@ -259,7 +268,11 @@ export default function Pattern() {
           </div>
         ))}
       </div>
-      <div className="pattern-layers" aria-hidden="true">
+      <div
+        className="pattern-layers"
+        aria-hidden="true"
+        style={{ '--grid-div': spec.divisor } as CSSProperties}
+      >
         <pre className="pattern-noise">{noise}</pre>
         <pre className="pattern-signal">{sig}</pre>
         <pre className="pattern-grad">{grad}</pre>
