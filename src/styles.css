@@ -23,7 +23,62 @@ body,
   color: var(--ink);
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: 12px;
-  cursor: crosshair;
+  cursor: default;
+}
+
+.pattern-docs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pattern-doc {
+  position: absolute;
+  width: 7.5vw;
+  aspect-ratio: 0.72;
+  box-sizing: border-box;
+  padding: 0.9vw 0.8vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45vw;
+  background: var(--bg);
+  border: 1px solid #cfcfcf;
+}
+
+.pattern-doc span {
+  display: block;
+  height: 0.18vw;
+  background: #cfcfcf;
+}
+
+.pattern-doc .pattern-doc-title {
+  height: 0.35vw;
+  width: 55%;
+  background: var(--ink);
+}
+
+.pattern-doc .pattern-doc-grid {
+  height: 2.2vw;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cfcfcf;
+  background-color: transparent;
+  background-image: linear-gradient(#cfcfcf 1px, transparent 1px),
+    linear-gradient(90deg, #cfcfcf 1px, transparent 1px);
+  background-size: 25% 33.3%;
+}
+
+.pattern-layers {
+  clip-path: circle(80% at 50% 50%);
+  transition: clip-path 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pattern--intro .pattern-layers {
+  clip-path: circle(0% at 50% 50%);
+}
+
+.pattern--ready .pattern-layers {
+  clip-path: circle(80% at 50% 50%);
 }
 
 .pattern-layers {
@@ -45,16 +100,19 @@ body,
 
 .pattern-noise {
   color: var(--noise);
+  opacity: 0.76;
 }
 
 .pattern-signal {
   font-weight: 500;
   color: var(--ink);
+  opacity: 0.94;
 }
 
 .pattern-grad {
   font-weight: 500;
   color: var(--accent);
+  opacity: 0.88;
 }
 
 .pattern-name {
@@ -83,4 +141,13 @@ body,
 
 .pattern-title span {
   color: var(--accent);
+}
+
+.pattern-title {
+  transition: opacity 1s ease 0.8s, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.8s;
+}
+
+.pattern--intro .pattern-title {
+  opacity: 0;
+  transform: translateY(24px);
 }
